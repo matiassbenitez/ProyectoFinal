@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html
+    lang="es"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+    <title>Registrar Publicación</title>
+    <head th:replace="/fragments/head :: head"></head>
+    <head>
+        <!-- Favicon -->
+        <link href="img/favicon.ico" rel="icon" />
+
+        <!-- Google Web Fonts -->
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+
+        <!-- Font Awesome -->
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
+            rel="stylesheet"
+        />
+
+        <!-- Libraries Stylesheet -->
+        <link
+            href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css"
+            rel="stylesheet"
+        />
+
+        <!-- Customized Bootstrap Stylesheet -->
+        <link href="css/style.css" rel="stylesheet" />
+        <!-- Agrega el enlace al CDN de Font Awesome para obtener los íconos -->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+        />
+    </head>
+
+    <body>
+        <!-- Navbar Start -->
+        <div class="container-fluid position-relative nav-bar p-0">
+            <div
+                class="container-lg position-relative p-0 px-lg-5"
+                style="z-index: 9"
+            >
+                <nav th:replace="/fragments/navbar :: nav"></nav>
+            </div>
+        </div>
+        <!-- Navbar End -->
+
+        <div class="container">
+            <div class="titulo">
+                <h1 class="col-md-12">Ingresa un comentario</h1>
+            </div>
+
+            <div class="formulario">
+                <form
+                    action="/comentario/registro"
+                    method="post"
+                    enctype="multipart/form-data"
+                >
+                    <div th:if="${error != null}" class="div-error">
+                        <h5>Error</h5>
+                        <p th:text="${error}"></p>
+                    </div>
+
+                    <div th:if="${exito != null}" class="div-exito">
+                        <h5>Éxito</h5>
+                        <p th:text="${exito}"></p>
+                    </div>
+                    <input
+                        hidden
+                        type="text"
+                        name="usuarioId"
+                        th:value="${usuario.id}"
+                    />
+                    <input
+                        hidden
+                        type="text"
+                        name="idPublicacion"
+                        th:value="${publicacion.id}"
+                    />
+                    <div class="mb-3">
+                        <input
+                            type="text"
+                            name="comentario"
+                            placeholder="Comentario"
+                            class="form-control"
+                        />
+                    </div>
+                    <!-- <div class="form-group">
+                 Botón para cargar la foto de perfil -->
+                    <!-- <button class="btn btn-secondary btn-block py-3" type="button" onclick="document.getElementById('archivo').click()">
+                    Cargar Foto de Perfil
+                </button> -->
+                    <!-- Campo oculto para cargar la foto de perfil -->
+                    <!-- <input type="file" id="archivo" class="form-control" name="archivo" style="display: none;">
+            </div>
+            <div> -->
+
+                    <button type="submit" class="btn btn-primary">
+                        Enviar
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <script>
+            function validarFormulario() {
+                var direccion =
+                    document.getElementsByName("direccion")[0].value;
+                var localidad =
+                    document.getElementsByName("localidad")[0].value;
+                var provincia =
+                    document.getElementsByName("provincia")[0].value;
+                var precioBase =
+                    document.getElementsByName("precio_base")[0].value;
+                var capacidad =
+                    document.getElementsByName("capacidad")[0].value;
+
+                if (
+                    !direccion ||
+                    !localidad ||
+                    !provincia ||
+                    !precioBase ||
+                    !capacidad
+                ) {
+                    alert("Debes rellenar todos los campos.");
+                    return false;
+                }
+
+                return true;
+            }
+        </script>
+
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+        <script src="lib/easing/easing.min.js"></script>
+        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+        <script src="lib/tempusdominus/js/moment.min.js"></script>
+        <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+        <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+        <!-- Contact Javascript File -->
+        <script src="mail/jqBootstrapValidation.min.js"></script>
+        <script src="mail/contact.js"></script>
+
+        <!-- Template Javascript -->
+        <script src="js/main.js"></script>
+    </body>
+</html>

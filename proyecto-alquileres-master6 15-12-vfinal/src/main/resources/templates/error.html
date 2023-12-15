@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<title>QYE Quinchos Y Eventos</title>    
+<head th:replace="/fragments/head :: head"></head>
+<body>
+
+    <!-- Navbar Start -->
+            <div class="container-fluid position-relative nav-bar p-0">
+                <div
+                    class="container-lg position-relative p-0 px-lg-5"
+                    style="z-index: 9"
+                >
+                    <nav
+                        class="navbar navbar-expand-lg bg-light navbar-light shadow-lg py-3 py-lg-0 pl-3 pl-lg-5"
+                    >
+                        <a href="/" class="navbar-brand">
+                            <h1 class="m-1 text-primary">
+                                <span class="text-dark">Q</span>
+                                Y
+                                <span class="text-dark">E</span>
+                            </h1>
+                            QUINCHOS Y EVENTOS
+                        </a>
+                    </nav>
+                </div>
+            </div>
+    <!-- Navbar End -->
+<body>
+    <div class="container-fluid position-relative nav-bar p-0">
+        <div
+            class="container-lg position-relative p-0 px-lg-5"
+            style="z-index: 9"
+        >
+            
+    <header class="header">
+        <section class="contenedorMain">
+            <div class="mb-3">
+                <a class="navbar-brand" th:text="'Error ' + ${codigo}">QYE Quinchos Y Eventos</a>
+                <p class="mb-3" th:text="${mensaje}"></p>
+                <!-- Espacio para la imagen de error -->
+                <div class="imagen-error">
+                <img src="img/errorimg.jpg" alt="Imagen de error">
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <p class="mb-3"
+                    th:text=" 'Ups, parece que algo saliÃ³ mal '"></p>
+            </div>
+            
+            <section class="text-center container">
+                <div class="row mt-3">
+                    <div class="divVolver">
+                        <a th:href="@{/}" class="btn btn-secondary my-2 botonVolver botones">Volver</a>
+                    </div>
+                </div>
+            </section>
+            <div class="bg-circle-1 bg-circle"></div>
+            <div class="bg-circle-2 bg-circle"></div>
+            <div class="bg-circle-3 bg-circle"></div>
+            <div class="bg-circle-4 bg-circle"></div>
+        </section>
+    </header>
+
+
+            <!-- JavaScript Libraries -->
+            <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+            <script src="lib/easing/easing.min.js"></script>
+            <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+            <script src="lib/tempusdominus/js/moment.min.js"></script>
+            <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+            <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+            <!-- Contact Javascript File -->
+            <script src="mail/jqBootstrapValidation.min.js"></script>
+            <script src="mail/contact.js"></script>
+
+            <!-- Template Javascript -->
+            <script src="js/main.js"></script>
+
+
+</body>
+
+</html>

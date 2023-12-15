@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+   <title>Registrar Publicación</title>
+   <head th:replace= "/fragments/head :: head" ></head>
+
+
+
+   <!-- Favicon -->
+   <link href="img/favicon.ico" rel="icon">
+
+   <!-- Google Web Fonts -->
+   <link rel="preconnect" href="https://fonts.gstatic.com">
+   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+   <!-- Font Awesome -->
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+   <!-- Libraries Stylesheet -->
+   <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+   <!-- Customized Bootstrap Stylesheet -->
+   <link href="css/style.css" rel="stylesheet">
+   <!-- Agrega el enlace al CDN de Font Awesome para obtener los íconos -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+   <!-- Agrega el enlace al CDN de flatpickr -->
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+   <!-- Agrega el enlace al CDN de flatpickr y flatpickr en español -->
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+
+
+<body>
+
+   <!-- Navbar Start -->
+   <div class="container-fluid position-relative nav-bar p-0">
+      <div class="container-lg position-relative p-0 px-lg-5" style="z-index: 9;">
+         <nav th:replace="/fragments/navbar :: nav"></nav>
+      </div>
+   </div>
+   <!-- Navbar End -->
+
+   <div class="container">
+      <div class="titulo">
+         <h1 class="col-md-12">Reservar propiedad</h1>
+      </div>
+
+      <div class="formulario">
+         <form th:action="@{/reserva/reservar/__${publicacion.id}__}" method="POST">
+            <div th:if="${error != null}" class="div-error">
+               <h5>Error</h5>
+               <p th:text="${error}"></p>
+            </div>
+
+            <div th:if="${exito != null}" class="div-exito">
+               <h5>Éxito</h5>
+               <p th:text="${exito}"></p>
+            </div>
+            <input type="hidden" name="usuarioId" th:if="${usuario != null}" th:value="${usuario.id}">
+            <div class="mb-3">
+               <input disabled name="direccion" placeholder="Dirección" class="form-control" th:value="${publicacion.direccion}">
+            </div>
+            <div class="mb-3">
+               <input disabled name="localidad" placeholder="Localidad" class="form-control" th:value="${publicacion.localidad}">
+            </div>
+            <div class="mb-3">
+               <input disabled name="provincia" placeholder="Provincia" class="form-control" th:value="${publicacion.provincia}">
+            </div>
+            <div class="mb-3">
+               <input disabled name="precio_base" id="precio_base" placeholder="Precio Base" class="form-control" th:value="${publicacion.precio_base}">
+            </div>
+            <div class="mb-3">
+               <input disabled name="capacidad" placeholder="Capacidad" class="form-control" th:value="${publicacion.capacidad}">
+            </div>
+            <div class="mb-3">
+               <input disabled name="titulo" placeholder="Titulo" class="form-control" th:value="${publicacion.titulo}">
+            </div>
+            <div class="mb-3">
+               <input disabled name="descripcion" placeholder="Descripcion" class="form-control" th:value="${publicacion.descripcion}">
+            </div>
+            <div class="mb-3">
+               <input disabled name="categoria" placeholder="Descripcion" class="form-control" th:value="${publicacion.categoria}">
+            </div>
+            <!-- Input para seleccionar días disponibles como un calendario -->
+            <div class="mb-3">
+               <label class="mb-2">Fecha</label>
+               <input type="text" name="fecha" id="datepicker" class="form-control">
+            </div>
+            <!-- Checkbox Wifi -->
+            <div th:hidden="${!publicacion.wifi}" class="custom-checkbox">
+               <input type="checkbox" name="wifi" id="wifiCheckbox" onchange="updatePrecioFinal()">
+               <label for="wifiCheckbox" class="checkmark">
+                  <i class="fas fa-wifi"></i>
+               </label>
+               <label for="wifiCheckbox">Wifi +$3000</label>
+            </div>
+            <div class="dropdown-divider"></div>
+            <!-- Checkbox Pileta -->
+            <div th:hidden="${!publicacion.pileta}" class="custom-checkbox">
+               <input type="checkbox" name="pileta" id="piletaCheckbox" onchange="updatePrecioFinal()">
+               <label for="piletaCheckbox" class="checkmark">
+                  <i class="fas fa-swimming-pool"></i>
+               </label>
+               <label for="piletaCheckbox">Pileta +$15000</label>
+            </div>
+            <div class="mb-3">
+               <input name="precio_final" type="number" id="precioFinalInput" placeholder="Precio Final" class="form-control" >
+            </div>
+            <div class="dropdown-divider"></div>
+            <button type="submit" class="btn btn-primary">Reservar</button>
+         </form>
+      </div>
+   </div>
+
+
+
+
+   <script>
+      function validarFormulario() {
+      var direccion = document.getElementsByName("direccion")[0].value;
+      var localidad = document.getElementsByName("localidad")[0].value;
+      var provincia = document.getElementsByName("provincia")[0].value;
+      var precioBase = document.getElementsByName("precio_base")[0].value;
+      var capacidad = document.getElementsByName("capacidad")[0].value;
+
+      if (!direccion || !localidad || !provincia || !precioBase || !capacidad) {
+      alert("Debes rellenar todos los campos.");
+      return false;
+      }
+
+      return true;
+      }
+   </script>
+
+   <!-- JavaScript Libraries -->
+   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+   <script src="lib/easing/easing.min.js"></script>
+   <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+   <script src="lib/tempusdominus/js/moment.min.js"></script>
+   <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+   <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+   <!-- Contact Javascript File -->
+   <script src="mail/jqBootstrapValidation.min.js"></script>
+   <script src="mail/contact.js"></script>
+
+   <!-- Template Javascript -->
+   <script src="js/main.js"></script>
+
+   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+   <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+   <!-- Script para inicializar el flatpickr con configuración en español -->
+     <script th:inline="javascript">
+    /*<![CDATA[*/
+    var diasDisponibles = /*[[${diasDisponibles}]]*/ [];
+    /*]]>*/
+</script>
+  <script>
+    // Convertir diasDisponibles de formato 'yyyy-MM-dd' a 'd-m-Y'
+    var diasDisponiblesFormateados = diasDisponibles.map(fechaStr => {
+        var partesFecha = fechaStr.split("-");
+        return `${partesFecha[2]}-${partesFecha[1]}-${partesFecha[0]}`;
+    });
+
+    flatpickr("#datepicker", {
+        mode: "multiple",
+        dateFormat: "d-m-Y",
+        locale: "es",  // Configura el idioma a español
+        enable: diasDisponiblesFormateados,  // Solo permite fechas en diasDisponibles
+    });
+</script>
+
+   <script>
+      document.addEventListener('DOMContentLoaded', function() {
+         updatePrecioFinal();
+      });
+
+      function updatePrecioFinal() {
+         const wifiCheckbox = document.getElementById('wifiCheckbox');
+         const piletaCheckbox = document.getElementById('piletaCheckbox');
+         const precioFinalInput = document.getElementById('precioFinalInput');
+         const precioBase = parseFloat(document.querySelector('input[name="precio_base"]').value);
+         const wifiCost = wifiCheckbox.checked ? 3000 : 0;
+         const piletaCost = piletaCheckbox.checked ? 15000 : 0;
+         const precioFinal = precioBase + wifiCost + piletaCost;
+         precioFinalInput.value = precioFinal;
+      };
+   </script>
+
+</body>
+
+</html>

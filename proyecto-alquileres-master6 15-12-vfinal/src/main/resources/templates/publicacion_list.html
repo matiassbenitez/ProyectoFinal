@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html 
+   <html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8">
+    <title>Propiedades</title>
+    <head th:replace="/fragments/head :: head"></head>
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"> 
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="/css/style.css" rel="stylesheet">
+    <!-- Agrega el enlace al CDN de Font Awesome para obtener los íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+</head>
+<body>
+    <!-- Navbar Start -->
+    <div class="container-fluid position-relative nav-bar p-0">
+        <div class="container-lg position-relative p-0 px-lg-5" style="z-index: 9;">
+            <nav th:replace="/fragments/navbar :: nav"></nav>
+        </div>
+    </div>
+    <!-- Navbar End -->
+
+    <!-- Contenido de la Vista del Propietario -->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-12 text-center" sec:authorize="hasRole('PROPIETARIO')">
+                <h1><span th:text="${session.usuariosession.nombre}"></span>, esta es tu lista de publicaciones.</h1>
+            </div>
+        </div>
+
+        <div class="card-container">
+            <!-- Itera sobre las publicaciones y muestra cada una como una tarjeta -->
+            <div th:each="publicacion : ${publicaciones}">
+                <div class="custom-carousel-card">
+                    <!-- Muestra las imágenes de la propiedad en un carrusel -->
+                    <div id="carouselExample_<!--[[${publicacion.id}]]-->" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img th:src="@{/imagen/__${publicacion.imagenes[0].id}__}" class="d-block w-100" alt="Property Image 1">
+                            </div>
+                            <div th:each="imagen, iterStat : ${publicacion.imagenes}" th:if="${iterStat.index != 0}" class="carousel-item">
+                                <img th:src="@{/imagen/__${imagen.id}__}" class="d-block w-100" alt="Property Image">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- Muestra los detalles de la propiedad -->
+                        <h5 class="card-title" th:text="${publicacion.titulo}"></h5>
+                        <p class="card-text" th:text="${publicacion.direccion}"></p>
+                        <p class="card-text" th:text="${publicacion.localidad + ', ' + publicacion.provincia}"></p>
+                        <p class="card-text" th:text="'Precio Base: $' + ${publicacion.precio_base}"></p>
+                        <p class="card-text" th:text="'Capacidad: ' + ${publicacion.capacidad} + ' personas'"></p>
+                        <p class="card-text" th:text="${publicacion.descripcion}"></p>
+                        <!-- Acciones disponibles para el propietario -->
+                        <div class="card-action" sec:authorize="hasAnyRole('ADMIN','PROPIETARIO')">
+                            <a th:href="@{/publicacion/modificar/__${publicacion.id}__}" class="btn btn-info btn-action">
+                                Modificar
+                            </a>
+                            <!-- <a th:href="@{/publicacion/eliminar/__${publicacion.id}__}" class="btn btn-danger btn-action">
+                                Eliminar
+                            </a> -->
+                            <a th:href="${publicacion.altas} ? @{/publicacion/eliminar/__${publicacion.id}__} : @{/publicacion/darDeAlta/__${publicacion.id}__}" class="btn btn-danger btn-action">
+                                <span th:text="${publicacion.altas} ? 'Dar de baja' : 'Dar de alta'"></span>
+                             </a> 
+                        </div>
+                        <!-- Acción disponible para el cliente -->
+                        <div class="card-action" sec:authorize="hasRole('CLIENTE')">
+                            <a th:href="@{/reserva/__${publicacion.id}__}" class="btn btn-success btn-action">
+                                Reservar
+                            </a>
+                                    </div>
+                
+                <!-- Formulario para dejar comentario y calificación -->
+                <form th:action="@{/comentario/registrar}" method="post" class="mt-3" sec:authorize="hasRole('CLIENTE')">
+                    <input type="hidden" name="idPublicacion" th:value="${publicacion.id}">
+                    <input hidden type="text" th:value="${session.usuariosession.id}" name="usuarioId">
+
+                    <div class="form-group">
+                        <label for="comentario">Comentario:</label>
+                        <textarea class="form-control" id="comentario" name="texto" rows="3"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Enviar Comentario</button>
+                </form>
+            </div>
+        </div>
+        <div th:each="comentario : ${publicacion.comentarios}">
+            <div th:text="${comentario.usuario.nombre}"></div>
+            <div th:text="${comentario.texto}"></div>
+        </div>
+    </div>
+</div>
+
+    
+
+<!-- Scripts JavaScript -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="lib/tempusdominus/js/moment.min.js"></script>
+<script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+<script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+<script src="mail/jqBootstrapValidation.min.js"></script>
+<script src="mail/contact.js"></script>
+<script src="js/main.js"></script>
+ <!-- Bootstrap JS, jQuery, and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+   <title>Editar Perfil</title>
+   <head th:replace= "/fragments/head :: head" ></head>
+
+
+
+   <!-- Favicon -->
+   <link href="img/favicon.ico" rel="icon">
+
+   <!-- Google Web Fonts -->
+   <link rel="preconnect" href="https://fonts.gstatic.com">
+   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+   <!-- Font Awesome -->
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+   <!-- Libraries Stylesheet -->
+   <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+   <!-- Customized Bootstrap Stylesheet -->
+   <link href="css/style.css" rel="stylesheet">
+   <!-- Agrega el enlace al CDN de Font Awesome para obtener los íconos -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+   <!-- Agrega el enlace al CDN de flatpickr -->
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+   <!-- Agrega el enlace al CDN de flatpickr y flatpickr en español -->
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+
+
+<body>
+
+   <!-- Navbar Start -->
+   <div class="container-fluid position-relative nav-bar p-0">
+      <div class="container-lg position-relative p-0 px-lg-5" style="z-index: 9;">
+         <nav th:replace="/fragments/navbar :: nav"></nav>
+      </div>
+   </div>
+   <!-- Navbar End -->
+      <div class="container">
+      <div class="formulario">
+         <form class="formulario" th:action="@{/perfil/__${usuario.id}__}" method="POST" enctype="multipart/form-data">
+            <input hidden th:value="${id}" name="id">
+
+            <div class="form-group my-3">
+               <h3 class="card-title">Editar Usuario</h3>
+            </div>
+            <div class="mb-3">
+               <input type="text" class="form-control" name="nombre"  th:value="${usuario.nombre}">
+            </div>
+            <div class="mb-3">
+               <input type="email" class="form-control" name="email"  th:value="${usuario.email}">
+            </div>
+            <div class="mb-3">
+               <input type="file" class="form-control" name="archivo" >
+            </div>
+            <div class="mb-3">
+               <input type="password" class="form-control" name="password" placeholder="Contraseña">
+            </div>
+            <div class="mb-3">
+               <input type="password" class="form-control" name="password2" placeholder="Repetir Contraseña" >
+            </div>
+            <button type="submit" class="btn btn-primary mt-3 botones">Actualizar</button>
+         </form>
+         <section class=" text-center container">
+            <div class="row mt-3">
+               <div class="divVolver">
+                  <a th:href="@{/inicio}" class="btn btn-secondary my-2 botonVolver botones">Volver</a>
+               </div>
+            </div>
+         </section>
+      </div>
+      </div>
+   
+   
+   
+      <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+      <script src="lib/easing/easing.min.js"></script>
+      <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+      <script src="lib/tempusdominus/js/moment.min.js"></script>
+      <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+      <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+      <!-- Contact Javascript File -->
+      <script src="mail/jqBootstrapValidation.min.js"></script>
+      <script src="mail/contact.js"></script>
+
+      <!-- Template Javascript -->
+      <script src="js/main.js"></script>
+   </body>
+</html>
